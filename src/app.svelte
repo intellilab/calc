@@ -1,0 +1,108 @@
+<script>
+const targets = [
+  {
+    label: '上证A股',
+    value: 'SH',
+  },
+  {
+    label: '深证A股',
+    value: 'SZ',
+  },
+];
+const input = {
+  target: targets[0].value,
+  isBuying: true,
+  price: '0.00',
+  amount: 0,
+  feeRate: 0.02,
+  minFee: 5,
+  isETF: false,
+};
+const output = {
+  stampDuty: 0,
+  transferFee: 0,
+  fee: 0,
+};
+$: {
+  const total = input.price * input.amount * 100;
+  let baseFee = total * input.feeRate / 100;
+  baseFee = Math.max(input.minFee, baseFee);
+  const stampDuty = input.isBuying || input.isETF ? 0 : total * 0.001;
+  const transferFee = input.target === 'SH' && !input.isETF ? total * 0.00002 : 0;
+  const fee = baseFee + stampDuty + transferFee;
+  output.stampDuty = stampDuty.toFixed(2);
+  output.transferFee = transferFee.toFixed(2);
+  output.fee = fee.toFixed(2);
+}
+</script>
+
+<div class="max-w-screen-md mx-auto flex flex-col items-stretch">
+  <header class="flex mt-3 mb-6 items-center">
+    <h1 class="text-3xl">股票交易手续费</h1>
+
+    <a class="ml-4" href="https://github.com/intellilab/calc">
+      <img src="https://img.shields.io/github/stars/intellilab/calc?style=social" alt="tw-prism">
+    </a>
+  </header>
+
+  <section>
+    <div class="row">
+      <div class="label">交易对象：</div>
+      <div class="flex">
+        <select bind:value={input.target}>
+          {#each targets as target}
+          <option value={target.value}>{target.label}</option>
+          {/each}
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">交易类型：</div>
+      <div class="flex items-center">
+        <label class="mr-2"><input type="checkbox" bind:checked={input.isBuying}> 买入</label>
+        <label><input type="checkbox" bind:checked={input.isETF}> ETF</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">成交价：</div>
+      <div class="flex">
+        <input type="number" bind:value={input.price} step="0.01">元
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">成交量：</div>
+      <div class="flex">
+        <input type="number" bind:value={input.amount}>手
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">佣金：</div>
+      <div class="flex">
+        <input type="number" bind:value={input.feeRate}>%
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">最低佣金：</div>
+      <div class="flex">
+        <input type="number" bind:value={input.minFee}>元
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="row">
+      <div class="label">总费用：</div>
+      <div>{output.fee}</div>元
+    </div>
+    <div class="row">
+      <div class="label">印花税：</div>
+      <div>{output.stampDuty}</div>元
+    </div>
+    <div class="row">
+      <div class="label">过户费：</div>
+      <div>{output.transferFee}</div>元
+    </div>
+  </section>
+
+  <footer>Designed by <a href="https://gera2ld.space/" target="_blank" rel="noopener noreferrer">Gerald</a> with ❤️</footer>
+</div>

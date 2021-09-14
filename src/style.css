@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+
+body {
+  @apply text-gray-800;
+}
+
+section {
+  @apply border border-gray-400 bg-gray-200 mb-6 p-4 rounded;
+}
+
+select,
+input {
+  @apply border border-gray-200 outline-none;
+  &:hover {
+    @apply border-gray-400;
+  }
+  &:focus {
+    @apply border-gray-500;
+  }
+}
+
+a {
+  @apply text-blue-500;
+  &:hover,
+  &:active {
+    @apply text-blue-600;
+  }
+}
+
+.row {
+  @apply flex;
+  * + & {
+    @apply mt-2;
+  }
+
+  .label {
+    @apply w-32 text-right;
+  }
+}
+
+@tailwind utilities;
