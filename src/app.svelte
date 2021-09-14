@@ -36,7 +36,7 @@ $: {
 }
 </script>
 
-<div class="max-w-screen-md mx-auto flex flex-col items-stretch">
+<div class="max-w-screen-sm mx-auto px-4 flex flex-col items-stretch">
   <header class="flex mt-3 mb-6 items-center">
     <h1 class="text-3xl">股票交易手续费</h1>
 
@@ -96,11 +96,21 @@ $: {
     </div>
     <div class="row">
       <div class="label">印花税：</div>
-      <div>{output.stampDuty}</div>元
+      <div>
+        <span>{output.stampDuty}</span>元
+        {#if !input.isBuying && !input.isETF}
+        <div class="hint">（卖出股票时征收印花税）</div>
+        {/if}
+      </div>
     </div>
     <div class="row">
       <div class="label">过户费：</div>
-      <div>{output.transferFee}</div>元
+      <div>
+        <span>{output.transferFee}</span>元
+        {#if input.target === 'SH' && !input.isETF}
+        <div class="hint">（上证股票交易收过户费）</div>
+        {/if}
+      </div>
     </div>
   </section>
 

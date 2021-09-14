@@ -35,7 +35,14 @@ a {
   }
 
   .label {
-    @apply w-32 text-right;
+    @apply w-24 text-right;
+  }
+}
+
+.hint {
+  @apply text-yellow-600;
+  @screen sm {
+    @apply inline;
   }
 }
 
