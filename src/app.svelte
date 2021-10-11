@@ -14,22 +14,27 @@ const input = {
   isBuying: true,
   price: '0.00',
   amount: 0,
-  feeRate: 0.02,
+  commissionRate: 0.02,
   minFee: 5,
   isETF: false,
 };
 const output = {
+  commission: 0,
+  exchangeFee: 0,
   stampDuty: 0,
   transferFee: 0,
   fee: 0,
 };
 $: {
   const total = input.price * input.amount * 100;
-  let baseFee = total * input.feeRate / 100;
-  baseFee = Math.max(input.minFee, baseFee);
+  const commission = total * input.commissionRate / 100;
+  const exchangeFee = total * 0.00687 / 100;
+  const baseFee = Math.max(input.minFee, commission + exchangeFee);
   const stampDuty = input.isBuying || input.isETF ? 0 : total * 0.001;
   const transferFee = input.target === 'SH' && !input.isETF ? total * 0.00002 : 0;
   const fee = baseFee + stampDuty + transferFee;
+  output.commission = commission.toFixed(2);
+  output.exchangeFee = exchangeFee.toFixed(2);
   output.stampDuty = stampDuty.toFixed(2);
   output.transferFee = transferFee.toFixed(2);
   output.fee = fee.toFixed(2);
@@ -78,7 +83,7 @@ $: {
     <div class="row">
       <div class="label">佣金：</div>
       <div class="flex">
-        <input type="number" bind:value={input.feeRate}>%
+        <input type="number" bind:value={input.commissionRate} step="0.01">%
       </div>
     </div>
     <div class="row">
@@ -93,6 +98,18 @@ $: {
     <div class="row">
       <div class="label">总费用：</div>
       <div>{output.fee}</div>元
+    </div>
+    <div class="row">
+      <div class="label">佣金：</div>
+      <div>
+        <span>{output.commission}</span>元
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">交易所规费：</div>
+      <div>
+        <span>{output.exchangeFee}</span>元
+      </div>
     </div>
     <div class="row">
       <div class="label">印花税：</div>
