@@ -31,7 +31,7 @@ $: {
   const exchangeFee = total * 0.00687 / 100;
   const baseFee = Math.max(input.minFee, commission + exchangeFee);
   const stampDuty = input.isBuying || input.isETF ? 0 : total * 0.001;
-  const transferFee = input.target === 'SH' && !input.isETF ? total * 0.00002 : 0;
+  const transferFee = input.target === 'SH' && !input.isETF ? total * 0.00001 : 0;
   const fee = baseFee + stampDuty + transferFee;
   output.commission = commission.toFixed(2);
   output.exchangeFee = exchangeFee.toFixed(2);
