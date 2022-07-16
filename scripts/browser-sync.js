@@ -1,8 +1,6 @@
 const browserSync = require('rollup-plugin-browsersync');
 
-function browserSyncPlugin({
-  dist,
-}) {
+function browserSyncPlugin({ dist }) {
   return browserSync({
     server: dist,
     notify: false,

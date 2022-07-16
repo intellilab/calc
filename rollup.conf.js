@@ -11,7 +11,8 @@ const { sveltePlugin } = require('./scripts/svelte');
 const DIST = 'dist';
 const FILENAME = 'app';
 
-const postcssConfig = loadConfigSync('postcss') || require('@gera2ld/plaid/config/postcssrc');
+const postcssConfig =
+  loadConfigSync('postcss') || require('@gera2ld/plaid/config/postcssrc');
 const postcssOptions = {
   ...postcssConfig,
   extract: true,
@@ -20,7 +21,7 @@ const postcssOptions = {
 const rollupConfig = [
   {
     input: {
-      input: 'src/index.js',
+      input: 'src/index.ts',
       plugins: [
         sveltePlugin({ isProd }),
         ...getRollupPlugins({

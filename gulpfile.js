@@ -15,22 +15,23 @@ function clean() {
 }
 
 function copy() {
-  return gulp.src('src/public/**')
-    .pipe(gulp.dest(DIST));
+  return gulp.src('src/public/**').pipe(gulp.dest(DIST));
 }
 
 function buildJs() {
   const rollupConfig = loadConfig();
-  return Promise.all(rollupConfig.map(async (config) => {
-    const bundle = await rollup.rollup(config);
-    await bundle.write(config.output);
-  }));
+  return Promise.all(
+    rollupConfig.map(async (config) => {
+      const bundle = await rollup.rollup(config);
+      await bundle.write(config.output);
+    })
+  );
 }
 
 function watchJs() {
   const rollupConfig = loadConfig();
   const watcher = rollup.watch(rollupConfig);
-  watcher.on('event', e => {
+  watcher.on('event', (e) => {
     if (e.code === 'ERROR') {
       console.error();
       console.error(`${e.error}`);
@@ -42,8 +43,8 @@ function watchJs() {
 }
 
 function wrapError(handle) {
-  const wrapped = () => handle()
-    .catch(err => {
+  const wrapped = () =>
+    handle().catch((err) => {
       log(err.toString());
     });
   wrapped.displayName = handle.name;

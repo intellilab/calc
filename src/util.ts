@@ -12,7 +12,8 @@ export function getFees(input: {
   const exchangeFee = total * 0.0000687;
   const baseFee = Math.max(input.minFee, commission);
   const stampDuty = input.side === 'buy' || input.isETF ? 0 : total * 0.001;
-  const transferFee = input.market === 'SH' && !input.isETF ? total * 0.00001 : 0;
+  const transferFee =
+    input.market === 'SH' && !input.isETF ? total * 0.00001 : 0;
   const totalFee = baseFee + stampDuty + transferFee;
   return {
     commission,

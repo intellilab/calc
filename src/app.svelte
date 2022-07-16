@@ -56,9 +56,9 @@
     <div class="row">
       <div class="label">交易类型：</div>
       <div class="flex items-center">
-        <label class="mr-2"
-          ><input type="checkbox" bind:checked={input.isBuying} /> 买入</label
-        >
+        <label class="mr-2">
+          <input type="checkbox" bind:checked={input.isBuying} /> 买入
+        </label>
         <label><input type="checkbox" bind:checked={input.isETF} /> ETF</label>
       </div>
     </div>
@@ -128,10 +128,8 @@
   </section>
 
   <footer>
-    Designed by <a
-      href="https://gera2ld.space/"
-      target="_blank"
-      rel="noopener">Gerald</a
+    Designed by <a href="https://gera2ld.space/" target="_blank" rel="noopener"
+      >Gerald</a
     > with ❤️
   </footer>
 </div>
